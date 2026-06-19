@@ -1,0 +1,63 @@
+name: Publish
+
+# Per-package release via tags of the form `<package>-vX.Y.Z`, e.g. `gafs-v0.1.0`.
+# Publishing uses PyPI Trusted Publishing (OIDC) — no API tokens are stored.
+
+on:
+  push:
+    tags:
+      - "gafs-v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build gafs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Build distributions
+        run: uv build packages/gafs
+      - name: Check metadata
+        run: uvx twine check packages/gafs/dist/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gafs-dist
+          path: packages/gafs/dist/*
+
+  publish-testpypi:
+    name: Publish to TestPyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/gafs/
+    permissions:
+      id-token: write   # required for OIDC trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: gafs-dist
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: publish-testpypi
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/gafs/
+    permissions:
+      id-token: write   # required for OIDC trusted publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: gafs-dist
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1

@@ -1,6 +1,7 @@
 # Internal development scratch / local-only notes — not part of the project
 /Idea/
 /AGENTS.md
+/RELEASING.md
 
 # Python
 __pycache__/
