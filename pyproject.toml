@@ -1,0 +1,49 @@
+# ── evo-suite monorepo (uv workspace) ───────────────────────────────────────
+#
+# This file does NOT define a distributable package. It only configures the uv
+# workspace so that every package under `packages/*` is developed and tested
+# from a single, shared virtual environment.
+#
+# Each package (e.g. `packages/gafs`) ships its own `pyproject.toml` and is
+# published to PyPI independently.
+
+[tool.uv.workspace]
+members = ["packages/*"]
+# `gpfe` is a reserved placeholder (no package yet); exclude it until it ships.
+exclude = ["packages/gpfe"]
+
+# Editable installs of every workspace member into the shared environment.
+[tool.uv.sources]
+gafs = { workspace = true }
+
+[dependency-groups]
+# Shared developer tooling for the whole monorepo. Installed with `uv sync`.
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.6",
+    "mypy>=1.8",
+    "matplotlib>=3.6",
+]
+
+# Repo-wide mypy configuration so `uv run mypy packages/<pkg>/src` works from
+# the monorepo root. Third-party libraries without type stubs are ignored.
+# python_version is the analysis target (>= 3.10 for current mypy); the
+# packages still support Python 3.9 at runtime via `from __future__ import
+# annotations`.
+[tool.mypy]
+python_version = "3.10"
+warn_unused_configs = true
+ignore_missing_imports = true
+check_untyped_defs = true
+
+# Repo-wide ruff settings used for files outside a package (e.g. examples/).
+# Local-only development scratch is git-ignored and excluded from linting.
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+extend-exclude = ["Idea"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
