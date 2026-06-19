@@ -60,8 +60,11 @@ uv run mypy packages/gafs/src
 
 ## Releasing
 
-See [`RELEASING.md`](RELEASING.md) for how the repository is linked to GitHub
-and how packages are published to PyPI (CI/CD).
+Packages are published to PyPI **independently** from this repo. Continuous
+integration (`.github/workflows/ci.yml`) runs lint, type-checks, tests and a
+packaging check on every push and pull request. Continuous delivery
+(`.github/workflows/publish.yml`) builds and publishes a package via PyPI
+Trusted Publishing when a package-scoped tag (e.g. `gafs-v0.1.0`) is pushed.
 
 ## License
 
