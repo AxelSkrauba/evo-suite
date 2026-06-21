@@ -1,4 +1,4 @@
-"""Example: GA feature selection with `gafs`.
+"""Example: GA feature selection with `evo_gafs`.
 
 Run with the workspace environment:
 
@@ -13,7 +13,7 @@ It demonstrates the three core workflows:
 
 from __future__ import annotations
 
-from gafs import BenchmarkRunner, GAConfig, GAFeatureSelector
+from evo_gafs import BenchmarkRunner, GAConfig, GAFeatureSelector
 from sklearn.datasets import load_breast_cancer, load_wine
 from sklearn.tree import DecisionTreeClassifier
 

@@ -6,14 +6,16 @@
 packages that apply evolutionary computation to the data-preprocessing stage of a
 machine-learning pipeline.
 
-| Package | Technique | Role | Status |
-|---------|-----------|------|--------|
-| [`gafs`](packages/gafs) | Genetic Algorithm | **Feature selection** (choose the best subset of existing features) | 🚧 In development |
-| [`gpfe`](packages/gpfe) | Genetic Programming | **Feature engineering** (build new symbolic features) | 📋 Planned |
+| Distribution | Import | Technique | Role | Status |
+|--------------|--------|-----------|------|--------|
+| [`evo-gafs`](packages/evo-gafs) | `evo_gafs` | Genetic Algorithm | **Feature selection** (choose the best subset of existing features) | 🚧 In development |
+| [`evo-gpfe`](packages/evo-gpfe) | `evo_gpfe` | Genetic Programming | **Feature engineering** (build new symbolic features) | 📋 Planned |
 
-Each package is published to PyPI independently (`pip install gafs`), has minimal
-dependencies, and can be used on its own. They share this repository, its CI, its
-documentation and its conventions.
+Packages follow a consistent family pattern — distribution `evo-<module>`, import
+`evo_<module>` — so future additions (`evo-hpo`, `evo-nas`, …) slot in naturally.
+Each package is published to PyPI independently (`pip install evo-gafs`), has
+minimal dependencies, and can be used on its own. They share this repository, its
+CI, its documentation and its conventions.
 
 ## Why a monorepo?
 
@@ -27,7 +29,7 @@ us the best of both worlds:
 - **Per-package release independence** — a fix in one package never forces a
   release of the other; each is versioned and published on its own schedule.
 - **Minimal dependency footprints** — users install only what they need
-  (`gafs` does not pull in `gpfe`'s extra dependencies, and vice versa).
+  (`evo-gafs` does not pull in `evo-gpfe`'s extra dependencies, and vice versa).
 - **Room to grow** — new evolutionary tools can join as additional packages
   without re-architecting anything.
 
@@ -36,9 +38,9 @@ ship multiple coordinated-but-separate packages from a single repository.
 
 ## Compatibility matrix
 
-| `gafs` | `gpfe` | Status |
-|--------|--------|--------|
-| 0.1.x  | —      | ✓ Supported |
+| `evo-gafs` | `evo-gpfe` | Status |
+|------------|------------|--------|
+| 0.1.x      | —          | ✓ Supported |
 
 ## Development
 
@@ -50,12 +52,12 @@ virtual environment covers every package.
 uv sync
 
 # Run the test suite (a specific package)
-uv run pytest packages/gafs
+uv run pytest packages/evo-gafs
 
 # Lint, format-check and type-check
 uv run ruff check .
 uv run ruff format --check .
-uv run mypy packages/gafs/src
+uv run mypy packages/evo-gafs/src
 ```
 
 ## Releasing
@@ -64,7 +66,7 @@ Packages are published to PyPI **independently** from this repo. Continuous
 integration (`.github/workflows/ci.yml`) runs lint, type-checks, tests and a
 packaging check on every push and pull request. Continuous delivery
 (`.github/workflows/publish.yml`) builds and publishes a package via PyPI
-Trusted Publishing when a package-scoped tag (e.g. `gafs-v0.1.0`) is pushed.
+Trusted Publishing when a package-scoped tag (e.g. `evo-gafs-v0.1.0`) is pushed.
 
 ## License
 

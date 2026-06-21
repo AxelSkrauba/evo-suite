@@ -4,17 +4,17 @@
 # workspace so that every package under `packages/*` is developed and tested
 # from a single, shared virtual environment.
 #
-# Each package (e.g. `packages/gafs`) ships its own `pyproject.toml` and is
+# Each package (e.g. `packages/evo-gafs`) ships its own `pyproject.toml` and is
 # published to PyPI independently.
 
 [tool.uv.workspace]
 members = ["packages/*"]
-# `gpfe` is a reserved placeholder (no package yet); exclude it until it ships.
-exclude = ["packages/gpfe"]
+# `evo-gpfe` is a reserved placeholder (no package yet); exclude it until it ships.
+exclude = ["packages/evo-gpfe"]
 
 # Editable installs of every workspace member into the shared environment.
 [tool.uv.sources]
-gafs = { workspace = true }
+evo-gafs = { workspace = true }
 
 [dependency-groups]
 # Shared developer tooling for the whole monorepo. Installed with `uv sync`.

@@ -31,15 +31,18 @@ uv sync
 Every change must pass, from the repo root:
 
 ```bash
-uv run ruff check .            # lint
-uv run ruff format --check .   # formatting
-uv run mypy packages/gafs/src  # type checking
-uv run pytest packages/gafs    # tests (target: >= 80% coverage)
+uv run ruff check .                  # lint
+uv run ruff format --check .         # formatting
+uv run mypy packages/evo-gafs/src    # type checking
+uv run pytest packages/evo-gafs      # tests (target: >= 80% coverage)
 ```
 
 ## Conventions
 
-- **Layout:** every package uses the `src/` layout (`packages/<name>/src/<name>/`).
+- **Layout:** every package uses the `src/` layout
+  (`packages/<dist-name>/src/<import_name>/`, e.g. `packages/evo-gafs/src/evo_gafs/`).
+- **Naming:** the package family follows `evo-<module>` (distribution) and
+  `evo_<module>` (import).
 - **Docstrings:** NumPy style (compatible with `numpydoc` / Sphinx).
 - **Public API:** exported explicitly via each package's top-level `__init__.py`.
 - **Versioning:** semantic versioning, per-package.

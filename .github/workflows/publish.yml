@@ -1,19 +1,19 @@
 name: Publish
 
-# Per-package release via tags of the form `<package>-vX.Y.Z`, e.g. `gafs-v0.1.0`.
+# Per-package release via tags of the form `<dist-name>-vX.Y.Z`, e.g. `evo-gafs-v0.1.0`.
 # Publishing uses PyPI Trusted Publishing (OIDC) — no API tokens are stored.
 
 on:
   push:
     tags:
-      - "gafs-v*"
+      - "evo-gafs-v*"
 
 permissions:
   contents: read
 
 jobs:
   build:
-    name: Build gafs
+    name: Build evo-gafs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,12 +21,12 @@ jobs:
         uses: astral-sh/setup-uv@v5
       # `uv build <pkg>` writes artifacts to the workspace-root `dist/`.
       - name: Build distributions
-        run: uv build packages/gafs
+        run: uv build packages/evo-gafs
       - name: Check metadata
         run: uvx twine check dist/*
       - uses: actions/upload-artifact@v4
         with:
-          name: gafs-dist
+          name: evo-gafs-dist
           path: dist/*
 
   publish-testpypi:
@@ -35,13 +35,13 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://test.pypi.org/project/gafs/
+      url: https://test.pypi.org/project/evo-gafs/
     permissions:
       id-token: write   # required for OIDC trusted publishing
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: gafs-dist
+          name: evo-gafs-dist
           path: dist
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -53,12 +53,12 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/project/gafs/
+      url: https://pypi.org/project/evo-gafs/
     permissions:
       id-token: write   # required for OIDC trusted publishing
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: gafs-dist
+          name: evo-gafs-dist
           path: dist
       - uses: pypa/gh-action-pypi-publish@release/v1

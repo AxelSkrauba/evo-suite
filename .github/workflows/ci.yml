@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   test:
-    name: gafs · py${{ matrix.python-version }}
+    name: evo-gafs · py${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -38,10 +38,10 @@ jobs:
           uv run ruff format --check .
 
       - name: Type-check (mypy)
-        run: uv run mypy packages/gafs/src
+        run: uv run mypy packages/evo-gafs/src
 
       - name: Test (pytest)
-        run: uv run pytest packages/gafs --cov=gafs --cov-report=term-missing
+        run: uv run pytest packages/evo-gafs --cov=evo_gafs --cov-report=term-missing
 
   build:
     name: Build distributions
@@ -51,11 +51,11 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
       # `uv build <pkg>` writes artifacts to the workspace-root `dist/`.
-      - name: Build gafs
-        run: uv build packages/gafs
+      - name: Build evo-gafs
+        run: uv build packages/evo-gafs
       - name: Check metadata
         run: uvx twine check dist/*
       - uses: actions/upload-artifact@v4
         with:
-          name: gafs-dist
+          name: evo-gafs-dist
           path: dist/*
