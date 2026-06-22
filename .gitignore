@@ -29,6 +29,12 @@ htmlcov/
 .mypy_cache/
 .ruff_cache/
 
+# Docs build
+docs/_build/
+
+# Example artefacts
+examples/*.png
+
 # Jupyter
 .ipynb_checkpoints/
 
