@@ -11,37 +11,59 @@ concurrency:
 
 jobs:
   test:
-    name: evo-gafs · py${{ matrix.python-version }}
+    name: test · py${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
-
       - name: Sync workspace
         run: uv sync --python ${{ matrix.python-version }}
-
       - name: Lint (ruff)
         run: |
           uv run ruff check .
           uv run ruff format --check .
-
       - name: Type-check (mypy)
         run: uv run mypy packages/evo-gafs/src
-
+      # Fast tests on every Python; the heavier "slow" checks run once below.
       - name: Test (pytest)
-        run: uv run pytest packages/evo-gafs --cov=evo_gafs --cov-report=term-missing
+        run: uv run pytest packages/evo-gafs -m "not slow" --cov=evo_gafs --cov-report=term-missing
+
+  slow-checks:
+    name: slow checks (check_estimator + examples)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Sync workspace
+        run: uv sync
+      - name: Run slow tests
+        run: uv run pytest packages/evo-gafs -m slow
+
+  docs:
+    name: Build docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Sync docs environment
+        run: uv sync --group docs
+      - name: Build (warnings as errors)
+        run: uv run sphinx-build -W -b html docs docs/_build/html
 
   build:
     name: Build distributions
