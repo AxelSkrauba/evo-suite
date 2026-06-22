@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "evo-gafs"
-version = "0.1.0"
+version = "0.1.1"
 description = "Genetic Algorithm Feature Selector — a scikit-learn-compatible wrapper feature selector for tabular data (evo-suite)"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -53,8 +53,10 @@ dev = [
 ]
 
 [project.urls]
+Homepage = "https://github.com/AxelSkrauba/evo-suite"
+Documentation = "https://evo-suite.readthedocs.io/"
 Repository = "https://github.com/AxelSkrauba/evo-suite"
-Documentation = "https://github.com/AxelSkrauba/evo-suite/tree/main/packages/evo-gafs"
+Changelog = "https://github.com/AxelSkrauba/evo-suite/blob/main/packages/evo-gafs/CHANGELOG.md"
 "Bug Tracker" = "https://github.com/AxelSkrauba/evo-suite/issues"
 
 [tool.setuptools.packages.find]

@@ -2,6 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/evo-gafs.svg)](https://pypi.org/project/evo-gafs/)
 [![Python versions](https://img.shields.io/pypi/pyversions/evo-gafs.svg)](https://pypi.org/project/evo-gafs/)
+[![Docs](https://readthedocs.org/projects/evo-suite/badge/?version=latest)](https://evo-suite.readthedocs.io/en/latest/)
 [![CI](https://github.com/AxelSkrauba/evo-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/AxelSkrauba/evo-suite/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE)
 
@@ -12,6 +13,7 @@ explicitly trade raw performance for a smaller feature set — useful for edge
 deployment.
 
 Part of the [`evo-suite`](../../README.md) family (import name: `evo_gafs`).
+📖 **Documentation:** <https://evo-suite.readthedocs.io/>
 
 ## Why evo-gafs?
 
@@ -89,8 +91,8 @@ compression = 1 - n_selected / n_total
 
 ## Documentation & examples
 
-- Full documentation: user guide + API reference (built with Sphinx; see `docs/`).
-- Runnable examples: the repository's [`examples/`](../../examples) directory.
+- **Full documentation** (user guide + API reference): <https://evo-suite.readthedocs.io/>
+- **Runnable examples**: the repository's [`examples/`](../../examples) directory.
 
 ## Citation
 
@@ -99,7 +101,7 @@ compression = 1 - n_selected / n_total
   author    = {Skrauba, Axel},
   title     = {evo-gafs: Genetic Algorithm Feature Selector for tabular data},
   year      = {2026},
-  version   = {0.1.0},
+  version   = {0.1.1},
   url       = {https://github.com/AxelSkrauba/evo-suite}
 }
 ```

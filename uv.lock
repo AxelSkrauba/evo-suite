@@ -986,7 +986,7 @@ wheels = [
 
 [[package]]
 name = "evo-gafs"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "packages/evo-gafs" }
 dependencies = [
     { name = "deap", version = "1.4.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },

@@ -1,10 +1,14 @@
 # evo-suite
 
+[![Docs](https://readthedocs.org/projects/evo-suite/badge/?version=latest)](https://evo-suite.readthedocs.io/en/latest/)
+
 **Evolutionary computation for tabular data engineering.**
 
 `evo-suite` is a monorepo hosting a family of independent, `scikit-learn`-compatible
 packages that apply evolutionary computation to the data-preprocessing stage of a
 machine-learning pipeline.
+
+📖 **Documentation:** <https://evo-suite.readthedocs.io/>
 
 | Distribution | Import | Technique | Role | Status |
 |--------------|--------|-----------|------|--------|
@@ -59,6 +63,11 @@ uv run ruff check .
 uv run ruff format --check .
 uv run mypy packages/evo-gafs/src
 ```
+
+## Documentation
+
+Full user guide and API reference: <https://evo-suite.readthedocs.io/> (built
+with Sphinx from `docs/`).
 
 ## Releasing
 

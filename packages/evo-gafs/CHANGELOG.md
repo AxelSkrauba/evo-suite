@@ -4,11 +4,18 @@ All notable changes to `evo-gafs` are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.1] - 2026-06-19
+
+### Changed
+- Point the PyPI **Documentation** URL to the Read the Docs site
+  (<https://evo-suite.readthedocs.io/>) and add `Homepage` and `Changelog`
+  project URLs.
+
+## [0.1.0]
 
 ### Added
 - Initial modular package extracted from the educational monolith.
-- `GAFeatureSelector` now inherits from `BaseEstimator` and `SelectorMixin`,
+- `GAFeatureSelector` inherits from `BaseEstimator` and `SelectorMixin`,
   exposing `fit`/`transform`/`get_support` and working inside scikit-learn
   pipelines.
 - Per-instance DEAP type registration (UUID-suffixed) to avoid global type
