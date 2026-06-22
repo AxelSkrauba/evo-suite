@@ -1,5 +1,8 @@
 # evo-gafs — Genetic Algorithm Feature Selector
 
+[![PyPI](https://img.shields.io/pypi/v/evo-gafs.svg)](https://pypi.org/project/evo-gafs/)
+[![Python versions](https://img.shields.io/pypi/pyversions/evo-gafs.svg)](https://pypi.org/project/evo-gafs/)
+[![CI](https://github.com/AxelSkrauba/evo-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/AxelSkrauba/evo-suite/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../../LICENSE)
 
 A **scikit-learn-compatible** wrapper feature selector for tabular data, powered
@@ -25,7 +28,7 @@ Part of the [`evo-suite`](../../README.md) family (import name: `evo_gafs`).
 
 ```bash
 pip install evo-gafs            # core
-pip install evo-gafs[viz]       # + matplotlib for the plotting helpers
+pip install "evo-gafs[viz]"     # + matplotlib for the plotting helpers
 ```
 
 ## Quickstart
@@ -83,6 +86,11 @@ compression = 1 - n_selected / n_total
 
 - `alpha = 1.0` → pure wrapper (performance only)
 - `alpha ≈ 0.7` → balanced, good default for edge deployment
+
+## Documentation & examples
+
+- Full documentation: user guide + API reference (built with Sphinx; see `docs/`).
+- Runnable examples: the repository's [`examples/`](../../examples) directory.
 
 ## Citation
 

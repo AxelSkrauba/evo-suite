@@ -1,6 +1,6 @@
 """Matplotlib visualisations for analysing a GA run.
 
-``matplotlib`` is an optional dependency (install with ``pip install evo_gafs[viz]``)
+``matplotlib`` is an optional dependency (install with ``pip install evo-gafs[viz]``)
 and is imported lazily so the core package stays lightweight.
 """
 
@@ -16,7 +16,7 @@ def _require_matplotlib():
         import matplotlib.pyplot as plt
     except ImportError as exc:  # pragma: no cover - depends on optional extra
         raise ImportError(
-            "matplotlib is required for plotting. Install it with `pip install evo_gafs[viz]`."
+            "matplotlib is required for plotting. Install it with `pip install evo-gafs[viz]`."
         ) from exc
     return plt
 
