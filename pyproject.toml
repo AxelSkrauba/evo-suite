@@ -9,12 +9,11 @@
 
 [tool.uv.workspace]
 members = ["packages/*"]
-# `evo-gpfe` is a reserved placeholder (no package yet); exclude it until it ships.
-exclude = ["packages/evo-gpfe"]
 
 # Editable installs of every workspace member into the shared environment.
 [tool.uv.sources]
 evo-gafs = { workspace = true }
+evo-gpfe = { workspace = true }
 
 [dependency-groups]
 # Shared developer tooling for the whole monorepo. Installed with `uv sync`.

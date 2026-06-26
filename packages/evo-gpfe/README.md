@@ -1,14 +1,27 @@
 # evo-gpfe — Genetic Programming Feature Engineer
 
-> 📋 **Planned.** This package is reserved within the `evo-suite` monorepo and
-> is not yet implemented.
+> � **In development.** Part of the [`evo-suite`](../../README.md) family
+> (import name: `evo_gpfe`).
 
-`evo-gpfe` will use **Genetic Programming** to *construct* new symbolic features
-(transformations of the existing ones) for tabular data, complementing
-[`evo-gafs`](../evo-gafs) which *selects* among existing features.
+A **scikit-learn-compatible** symbolic feature constructor for tabular data,
+powered by [DEAP](https://github.com/DEAP/deap). `evo-gpfe` evolves expression
+trees that *combine* the original features into new, informative ones —
+complementing [`evo-gafs`](../evo-gafs), which *selects* among existing features.
 
-Like `evo-gafs`, it will expose a scikit-learn-compatible transformer
-(`fit`/`transform`, import name `evo_gpfe`) and integrate into the shared
-documentation and CI of the [`evo-suite`](../../README.md) project. It will be
-published independently to PyPI (`pip install evo-gpfe`) and is expected to add
-`scipy` as its only extra core dependency.
+It uses a **Hall-of-Fame sequential** strategy that rewards relevance to the
+target (mutual information) while penalising redundancy with already-generated
+features and tree complexity (parsimony), producing diverse, interpretable
+expressions such as `log(x2) * (x5 + x1^2)`.
+
+## Installation
+
+```bash
+pip install evo-gpfe            # core
+pip install "evo-gpfe[viz]"     # + matplotlib for the plotting helpers
+```
+
+📖 **Documentation:** <https://evo-suite.readthedocs.io/>
+
+## License
+
+[MIT](../../LICENSE)
