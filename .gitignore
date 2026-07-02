@@ -33,7 +33,7 @@ htmlcov/
 docs/_build/
 
 # Example artefacts
-examples/*.png
+examples/**/*.png
 
 # Jupyter
 .ipynb_checkpoints/

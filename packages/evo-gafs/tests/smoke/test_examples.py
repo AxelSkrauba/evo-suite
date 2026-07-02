@@ -1,8 +1,8 @@
-"""Smoke test: every repository example runs end-to-end without error.
+"""Smoke test: every evo-gafs example runs end-to-end without error.
 
-The examples live at the repository root (`examples/`), outside the package.
-They are only present in a source checkout (not in the published distribution),
-so the test is skipped when the directory is absent.
+The examples live at the repository root (`examples/evo-gafs/`), outside the
+package. They are only present in a source checkout (not in the published
+distribution), so the test is skipped when the directory is absent.
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-EXAMPLES_DIR = Path(__file__).resolve().parents[4] / "examples"
+EXAMPLES_DIR = Path(__file__).resolve().parents[4] / "examples" / "evo-gafs"
 EXAMPLE_SCRIPTS = sorted(EXAMPLES_DIR.glob("*.py")) if EXAMPLES_DIR.is_dir() else []
 
 if not EXAMPLE_SCRIPTS:
