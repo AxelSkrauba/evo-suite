@@ -33,8 +33,7 @@ def infer_task_type(y: np.ndarray, declared: str = "auto") -> str:
     if declared != "auto":
         if declared not in ("classification", "regression"):
             raise ValueError(
-                "task_type must be 'auto', 'classification' or 'regression', "
-                f"got {declared!r}"
+                f"task_type must be 'auto', 'classification' or 'regression', got {declared!r}"
             )
         return declared
 

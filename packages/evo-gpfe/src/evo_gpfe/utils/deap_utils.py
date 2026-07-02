@@ -53,9 +53,7 @@ def create_types(uid: str) -> DeapTypes:
     individual_name = f"_GPFEIndividual_{uid}"
 
     creator.create(fitness_name, base.Fitness, weights=(1.0,))
-    creator.create(
-        individual_name, gp.PrimitiveTree, fitness=getattr(creator, fitness_name)
-    )
+    creator.create(individual_name, gp.PrimitiveTree, fitness=getattr(creator, fitness_name))
 
     return DeapTypes(
         individual_cls=getattr(creator, individual_name),
