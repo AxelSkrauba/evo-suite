@@ -9,10 +9,18 @@ project = "evo-suite"
 author = "Axel Skrauba"
 copyright = "2026, Axel Skrauba and the evo-suite contributors"
 
-try:
-    release = importlib.metadata.version("evo-gafs")
-except importlib.metadata.PackageNotFoundError:  # pragma: no cover
-    release = "0.0.0"
+
+def _pkg_version(name: str) -> str:
+    try:
+        return importlib.metadata.version(name)
+    except importlib.metadata.PackageNotFoundError:  # pragma: no cover
+        return "0.0.0"
+
+
+# The docs cover multiple independently versioned packages; there is no single
+# "project version", so `release`/`version` summarise all of them.
+_versions = {name: _pkg_version(name) for name in ("evo-gafs", "evo-gpfe")}
+release = " / ".join(f"{name} {v}" for name, v in _versions.items())
 version = release
 
 # ── General configuration ────────────────────────────────────────────────────
@@ -56,7 +64,7 @@ myst_heading_anchors = 3
 
 # ── HTML output ──────────────────────────────────────────────────────────────
 html_theme = "furo"
-html_title = f"evo-suite {release}"
+html_title = f"evo-suite ({release})"
 html_theme_options = {
     "source_repository": "https://github.com/AxelSkrauba/evo-suite/",
     "source_branch": "main",
