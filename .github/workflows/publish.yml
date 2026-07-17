@@ -1,19 +1,49 @@
 name: Publish
 
-# Per-package release via tags of the form `<dist-name>-vX.Y.Z`, e.g. `evo-gafs-v0.1.0`.
+# Per-package release via tags of the form `<dist-name>-vX.Y.Z`, e.g.
+# `evo-gafs-v0.1.0` or `evo-gpfe-v0.1.0`. The `prepare` job derives the package
+# name from the tag so the rest of the workflow stays generic.
+#
 # Publishing uses PyPI Trusted Publishing (OIDC) — no API tokens are stored.
+# evo-gafs publishes through the `testpypi`/`pypi` GitHub environments
+# (configured on PyPI when that package was first released); evo-gpfe uses its
+# own `testpypi-gpfe`/`pypi-gpfe` environments so each package's trusted
+# publisher and release approvals are independent.
 
 on:
   push:
     tags:
       - "evo-gafs-v*"
+      - "evo-gpfe-v*"
 
 permissions:
   contents: read
 
 jobs:
+  prepare:
+    name: Resolve package from tag
+    runs-on: ubuntu-latest
+    outputs:
+      package: ${{ steps.parse.outputs.package }}
+      testpypi_env: ${{ steps.parse.outputs.testpypi_env }}
+      pypi_env: ${{ steps.parse.outputs.pypi_env }}
+    steps:
+      - id: parse
+        run: |
+          ref="${{ github.ref_name }}"
+          package="${ref%-v*}"
+          echo "package=$package" >> "$GITHUB_OUTPUT"
+          if [ "$package" = "evo-gafs" ]; then
+            echo "testpypi_env=testpypi" >> "$GITHUB_OUTPUT"
+            echo "pypi_env=pypi" >> "$GITHUB_OUTPUT"
+          else
+            echo "testpypi_env=testpypi-gpfe" >> "$GITHUB_OUTPUT"
+            echo "pypi_env=pypi-gpfe" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
-    name: Build evo-gafs
+    name: Build ${{ needs.prepare.outputs.package }}
+    needs: prepare
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,27 +51,27 @@ jobs:
         uses: astral-sh/setup-uv@v5
       # `uv build <pkg>` writes artifacts to the workspace-root `dist/`.
       - name: Build distributions
-        run: uv build packages/evo-gafs
+        run: uv build packages/${{ needs.prepare.outputs.package }}
       - name: Check metadata
         run: uvx twine check dist/*
       - uses: actions/upload-artifact@v4
         with:
-          name: evo-gafs-dist
+          name: ${{ needs.prepare.outputs.package }}-dist
           path: dist/*
 
   publish-testpypi:
     name: Publish to TestPyPI
-    needs: build
+    needs: [prepare, build]
     runs-on: ubuntu-latest
     environment:
-      name: testpypi
-      url: https://test.pypi.org/project/evo-gafs/
+      name: ${{ needs.prepare.outputs.testpypi_env }}
+      url: https://test.pypi.org/project/${{ needs.prepare.outputs.package }}/
     permissions:
       id-token: write   # required for OIDC trusted publishing
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: evo-gafs-dist
+          name: ${{ needs.prepare.outputs.package }}-dist
           path: dist
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -49,16 +79,16 @@ jobs:
 
   publish-pypi:
     name: Publish to PyPI
-    needs: publish-testpypi
+    needs: [prepare, publish-testpypi]
     runs-on: ubuntu-latest
     environment:
-      name: pypi
-      url: https://pypi.org/project/evo-gafs/
+      name: ${{ needs.prepare.outputs.pypi_env }}
+      url: https://pypi.org/project/${{ needs.prepare.outputs.package }}/
     permissions:
       id-token: write   # required for OIDC trusted publishing
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: evo-gafs-dist
+          name: ${{ needs.prepare.outputs.package }}-dist
           path: dist
       - uses: pypa/gh-action-pypi-publish@release/v1

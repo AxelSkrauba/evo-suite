@@ -10,12 +10,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    name: lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Sync workspace
+        run: uv sync
+      - name: Lint
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
   test:
-    name: test · py${{ matrix.python-version }}
+    name: test · ${{ matrix.package }} · py${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
+        package: [evo-gafs, evo-gpfe]
         python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
@@ -27,19 +44,22 @@ jobs:
         run: uv python install ${{ matrix.python-version }}
       - name: Sync workspace
         run: uv sync --python ${{ matrix.python-version }}
-      - name: Lint (ruff)
-        run: |
-          uv run ruff check .
-          uv run ruff format --check .
       - name: Type-check (mypy)
-        run: uv run mypy packages/evo-gafs/src
+        run: uv run mypy packages/${{ matrix.package }}/src
       # Fast tests on every Python; the heavier "slow" checks run once below.
       - name: Test (pytest)
-        run: uv run pytest packages/evo-gafs -m "not slow" --cov=evo_gafs --cov-report=term-missing
+        run: |
+          uv run pytest packages/${{ matrix.package }} -m "not slow" \
+            --cov=${{ matrix.package == 'evo-gafs' && 'evo_gafs' || 'evo_gpfe' }} \
+            --cov-report=term-missing
 
   slow-checks:
-    name: slow checks (check_estimator + examples)
+    name: slow checks · ${{ matrix.package }} (check_estimator + examples)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [evo-gafs, evo-gpfe]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -49,7 +69,7 @@ jobs:
       - name: Sync workspace
         run: uv sync
       - name: Run slow tests
-        run: uv run pytest packages/evo-gafs -m slow
+        run: uv run pytest packages/${{ matrix.package }} -m slow
 
   docs:
     name: Build docs
@@ -66,18 +86,22 @@ jobs:
         run: uv run sphinx-build -W -b html docs docs/_build/html
 
   build:
-    name: Build distributions
+    name: Build distributions · ${{ matrix.package }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [evo-gafs, evo-gpfe]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
         uses: astral-sh/setup-uv@v5
-      # `uv build <pkg>` writes artifacts to the workspace-root `dist/`.
-      - name: Build evo-gafs
-        run: uv build packages/evo-gafs
+      # `uv build <pkg>` writes artifacts to the workspace-root `dist/`; build
+      # each package into its own directory so the matrix jobs don't collide.
+      - name: Build ${{ matrix.package }}
+        run: uv build packages/${{ matrix.package }} -o dist/${{ matrix.package }}
       - name: Check metadata
-        run: uvx twine check dist/*
+        run: uvx twine check dist/${{ matrix.package }}/*
       - uses: actions/upload-artifact@v4
         with:
-          name: evo-gafs-dist
-          path: dist/*
+          name: ${{ matrix.package }}-dist
+          path: dist/${{ matrix.package }}/*
