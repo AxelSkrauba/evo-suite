@@ -33,8 +33,10 @@ Every change must pass, from the repo root:
 ```bash
 uv run ruff check .                  # lint
 uv run ruff format --check .         # formatting
-uv run mypy packages/evo-gafs/src    # type checking
-uv run pytest packages/evo-gafs      # tests (target: >= 80% coverage)
+uv run mypy packages/evo-gafs/src    # type checking (repeat per package)
+uv run mypy packages/evo-gpfe/src
+uv run pytest packages/evo-gafs      # tests (target: >= 80% coverage; repeat per package)
+uv run pytest packages/evo-gpfe
 ```
 
 ## Conventions

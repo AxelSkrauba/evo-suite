@@ -12,8 +12,8 @@ machine-learning pipeline.
 
 | Distribution | Import | Technique | Role | Status |
 |--------------|--------|-----------|------|--------|
-| [`evo-gafs`](packages/evo-gafs) | `evo_gafs` | Genetic Algorithm | **Feature selection** (choose the best subset of existing features) | 🚧 In development |
-| [`evo-gpfe`](packages/evo-gpfe) | `evo_gpfe` | Genetic Programming | **Feature engineering** (build new symbolic features) | 📋 Planned |
+| [`evo-gafs`](packages/evo-gafs) | `evo_gafs` | Genetic Algorithm | **Feature selection** (choose the best subset of existing features) | 🟢 Published on PyPI |
+| [`evo-gpfe`](packages/evo-gpfe) | `evo_gpfe` | Genetic Programming | **Feature engineering** (build new symbolic features) | 🚧 In development |
 
 Packages follow a consistent family pattern — distribution `evo-<module>`, import
 `evo_<module>` — so future additions (`evo-hpo`, `evo-nas`, …) slot in naturally.
@@ -44,7 +44,7 @@ ship multiple coordinated-but-separate packages from a single repository.
 
 | `evo-gafs` | `evo-gpfe` | Status |
 |------------|------------|--------|
-| 0.1.x      | —          | ✓ Supported |
+| 0.1.x      | 0.1.x      | Supported together (neither requires the other) |
 
 ## Development
 
@@ -57,11 +57,13 @@ uv sync
 
 # Run the test suite (a specific package)
 uv run pytest packages/evo-gafs
+uv run pytest packages/evo-gpfe
 
 # Lint, format-check and type-check
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy packages/evo-gafs/src
+uv run mypy packages/evo-gpfe/src
 ```
 
 ## Documentation
