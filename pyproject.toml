@@ -14,6 +14,7 @@ members = ["packages/*"]
 [tool.uv.sources]
 evo-gafs = { workspace = true }
 evo-gpfe = { workspace = true }
+evo-ens = { workspace = true }
 
 [dependency-groups]
 # Shared developer tooling for the whole monorepo. Installed with `uv sync`.
