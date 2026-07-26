@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [evo-gafs, evo-gpfe]
+        package: [evo-gafs, evo-gpfe, evo-ens]
         python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
@@ -47,10 +47,13 @@ jobs:
       - name: Type-check (mypy)
         run: uv run mypy packages/${{ matrix.package }}/src
       # Fast tests on every Python; the heavier "slow" checks run once below.
+      - name: Resolve coverage import name
+        id: cov
+        run: echo "name=$(echo '${{ matrix.package }}' | tr '-' '_')" >> "$GITHUB_OUTPUT"
       - name: Test (pytest)
         run: |
           uv run pytest packages/${{ matrix.package }} -m "not slow" \
-            --cov=${{ matrix.package == 'evo-gafs' && 'evo_gafs' || 'evo_gpfe' }} \
+            --cov=${{ steps.cov.outputs.name }} \
             --cov-report=term-missing
 
   slow-checks:
@@ -59,7 +62,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [evo-gafs, evo-gpfe]
+        package: [evo-gafs, evo-gpfe, evo-ens]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -90,7 +93,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [evo-gafs, evo-gpfe]
+        package: [evo-gafs, evo-gpfe, evo-ens]
     steps:
       - uses: actions/checkout@v4
       - name: Install uv

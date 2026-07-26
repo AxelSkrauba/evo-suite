@@ -15,6 +15,7 @@ on:
     tags:
       - "evo-gafs-v*"
       - "evo-gpfe-v*"
+      - "evo-ens-v*"
 
 permissions:
   contents: read
@@ -36,9 +37,12 @@ jobs:
           if [ "$package" = "evo-gafs" ]; then
             echo "testpypi_env=testpypi" >> "$GITHUB_OUTPUT"
             echo "pypi_env=pypi" >> "$GITHUB_OUTPUT"
-          else
+          elif [ "$package" = "evo-gpfe" ]; then
             echo "testpypi_env=testpypi-gpfe" >> "$GITHUB_OUTPUT"
             echo "pypi_env=pypi-gpfe" >> "$GITHUB_OUTPUT"
+          else
+            echo "testpypi_env=testpypi-ens" >> "$GITHUB_OUTPUT"
+            echo "pypi_env=pypi-ens" >> "$GITHUB_OUTPUT"
           fi
 
   build:
