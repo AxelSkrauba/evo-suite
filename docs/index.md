@@ -11,11 +11,14 @@ are published to PyPI independently.
 |--------------|--------|-----------|------|--------|
 | [`evo-gafs`](evo-gafs/quickstart.md) | `evo_gafs` | Genetic Algorithm | Feature **selection** | Available |
 | [`evo-gpfe`](evo-gpfe/quickstart.md) | `evo_gpfe` | Genetic Programming | Feature **engineering** | Available |
+| [`evo-ens`](evo-ens/quickstart.md) | `evo_ens` | Genetic Algorithm | Ensemble **construction** | Available |
 
-The two packages are complementary — `evo-gpfe` *constructs* new features
-through evolved symbolic expressions, and `evo-gafs` *selects* the best subset
-from the (possibly augmented) feature set. Chaining them (GP, then GA) is a
-common pipeline; see the `06_gp_then_ga_pipeline.py` example.
+The three packages are complementary — `evo-gpfe` *constructs* new features
+through evolved symbolic expressions, `evo-gafs` *selects* the best subset
+from the (possibly augmented) feature set, and `evo-ens` *combines* several
+final models into a diversity-aware ensemble. Chaining GP and GA (construct,
+then select) is a common pipeline; see the `06_gp_then_ga_pipeline.py`
+example.
 
 ## evo-gafs — Genetic Algorithm Feature Selector
 
@@ -46,6 +49,22 @@ A genetic-programming *symbolic feature constructor*.
   built-in multi-dataset **benchmark runner**.
 
 → [Quickstart](evo-gpfe/quickstart.md) · [User guide](evo-gpfe/guide/concepts.md) · [API reference](evo-gpfe/api.md)
+
+## evo-ens — Evolutionary Ensemble Builder
+
+A genetic-algorithm *ensemble constructor*.
+
+- **Diversity-aware fitness**: co-optimizes predictive score and prediction
+  diversity (Yule's Q-statistic / Pearson correlation) between members.
+- **Out-of-fold pre-computation**: candidate models are cross-validated once,
+  making evolution over large populations cheap.
+- **Native scikit-learn estimators**: `EvoEnsembleClassifier` /
+  `EvoEnsembleRegressor` — `fit` / `predict` / `predict_proba`, usable in a
+  `Pipeline` and tunable with `GridSearchCV`.
+- **Multi-objective NSGA-II** mode exposing the full score/compression Pareto
+  front, and a built-in multi-dataset **benchmark runner**.
+
+→ [Quickstart](evo-ens/quickstart.md) · [User guide](evo-ens/guide/concepts.md) · [API reference](evo-ens/api.md)
 
 ```{toctree}
 :maxdepth: 1
@@ -80,4 +99,17 @@ evo-gpfe/guide/configuration
 evo-gpfe/guide/benchmark
 evo-gpfe/api
 evo-gpfe/changelog
+```
+
+```{toctree}
+:maxdepth: 2
+:caption: evo-ens
+:hidden:
+
+evo-ens/quickstart
+evo-ens/guide/concepts
+evo-ens/guide/configuration
+evo-ens/guide/benchmark
+evo-ens/api
+evo-ens/changelog
 ```

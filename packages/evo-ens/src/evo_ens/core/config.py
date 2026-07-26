@@ -59,10 +59,8 @@ class EvoEnsConfig:
         ``'roc_auc'``. Regression: ``'r2'``, ``'neg_rmse'``. Auto-detected
         by task type when ``None``.
     diversity_beta : float, default=0.10
-        Weight of the diversity penalty (single mode only)::
-
-            fitness = score - diversity_beta * mean_diversity
-
+        Weight of the diversity penalty (single mode only), where
+        ``fitness = score - diversity_beta * mean_diversity``.
         ``0.0`` ignores diversity entirely; higher values force more
         decorrelated ensembles, potentially at the cost of raw score.
     weight_method : {'softmax', 'abs_norm', 'uniform'}, default='softmax'
@@ -83,11 +81,15 @@ class EvoEnsConfig:
     Control parameters
     --------------------
     random_seed : int or None, default=42
+        Seed for the ``random`` and ``numpy.random`` modules, for reproducibility.
     verbose : bool, default=True
+        Print progress during the evolutionary run.
     early_stopping_rounds : int or None, default=25
         Stop evolving if the best fitness has not improved by more than
         ``early_stopping_tol`` over this many generations (single mode).
     early_stopping_tol : float, default=1e-5
+        Minimum fitness improvement over ``early_stopping_rounds`` generations
+        to reset the stagnation counter.
     """
 
     # Genetic Algorithm

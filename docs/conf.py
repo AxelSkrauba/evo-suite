@@ -19,7 +19,7 @@ def _pkg_version(name: str) -> str:
 
 # The docs cover multiple independently versioned packages; there is no single
 # "project version", so `release`/`version` summarise all of them.
-_versions = {name: _pkg_version(name) for name in ("evo-gafs", "evo-gpfe")}
+_versions = {name: _pkg_version(name) for name in ("evo-gafs", "evo-gpfe", "evo-ens")}
 release = " / ".join(f"{name} {v}" for name, v in _versions.items())
 version = release
 
